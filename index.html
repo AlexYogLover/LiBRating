@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pod Rankings S11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style id="css">
+/* VOICE: gossipy sofa debate, warm and fun but tidy
+   IDEA: the glowing pod wall — two sides of a wall, each with their own ranking
+   PICTURE: the two ranked lists side by side, lit like pod panels
+   COLOUR and TYPE: deep wine ground, blush panels, gold for Alex, rose pink for Rose; Outfit
+   LAYOUT: header band with episode + who's watching, two boards, then couple cards with notes */
+:root{color-scheme:light dark;
+--bg:light-dark(#fbf1ee,#1a0a10);--panel:light-dark(#ffffff,#2a1119);--ink:light-dark(#2a0c17,#f8e9ec);
+--mute:light-dark(#7d5a64,#c9a6b0);--line:light-dark(#efd9dc,#40212b);--wine:#4a0f24;
+--alex:light-dark(#a86e12,#e8b452);--alexbg:light-dark(#fbefd9,#3a2a12);
+--rose:light-dark(#c2335d,#ff7ea2);--rosebg:light-dark(#fde3ea,#45162a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Outfit,system-ui,sans-serif;overflow-x:clip}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.top{background:radial-gradient(120% 140% at 80% 0%,#7a1d3d 0%,var(--wine) 55%,#2b0715 100%);color:#fbe9ee;padding:clamp(22px,4vw,44px) max(5vw,16px) 26px}
+.wrap{max-width:1180px;margin:0 auto}
+.kick{font-size:14px;opacity:.8;margin:0 0 4px}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.05;margin:0 0 18px;font-weight:800;text-wrap:balance}
+.bar{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center}
+.ep{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:999px;padding:4px}
+.ep b{padding:0 6px;white-space:nowrap}
+.ep button,.who button{border:0;border-radius:999px;min-height:40px;padding:0 14px;background:transparent;color:#fbe9ee}
+.ep button:hover{background:rgba(255,255,255,.15)}
+.ep .nx{background:#fbe9ee;color:var(--wine);font-weight:700}
+.who{display:flex;gap:4px;background:rgba(255,255,255,.1);border-radius:999px;padding:4px;align-items:center}
+.who span{padding:0 8px 0 10px;font-size:14px;opacity:.85}
+.who button[aria-pressed=true]{background:#fbe9ee;color:var(--wine);font-weight:700}
+.status{font-size:13px;opacity:.75;margin-left:auto}
+.band{padding:clamp(22px,3.5vw,44px) max(5vw,16px)}
+.boards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2.5vw,28px)}
+.board{background:var(--panel);border-radius:22px;padding:18px;border:1px solid var(--line);box-shadow:0 14px 40px -24px rgba(74,15,36,.45)}
+.board h2{font-size:24px;margin:0 0 2px;display:flex;align-items:center;gap:10px}
+.dot{width:14px;height:14px;border-radius:50%;flex:none}
+.av{width:1.6em;height:1.6em;vertical-align:-.45em;flex:none;display:inline-block}
+.av.big{border-radius:50%}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:6px}
+.duo{display:flex;flex:none}
+.duo .av{width:clamp(84px,14vw,150px);height:clamp(84px,14vw,150px);border:4px solid #fbe9ee;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+.duo .av+.av{margin-left:-22px;transform:rotate(4deg)}.duo .av:first-child{transform:rotate(-4deg)}
+.board h2{gap:14px}.board h2 .av{width:clamp(72px,9vw,96px);height:clamp(72px,9vw,96px);border:3px solid var(--line)}
+.alex h2 .av{border-color:var(--alex)}.rose h2 .av{border-color:var(--rose)}
+.who button{display:inline-flex;align-items:center;gap:6px;padding-left:4px}.who button .av{width:34px;height:34px}
+.pick .btn{display:inline-flex;flex-direction:column;align-items:center;gap:10px;padding:16px 22px;min-width:170px}.pick .btn .av{width:130px;height:130px;border:4px solid #fbe9ee}
+@media(max-width:600px){.hero{flex-direction:column-reverse;align-items:flex-start}}
+.board p.sub{margin:0 0 14px;color:var(--mute);font-size:14px}
+.alex .dot{background:var(--alex)}.rose .dot{background:var(--rose)}
+ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 8px 8px 10px;border-radius:14px;background:var(--bg);transition:transform .25s}
+.alex .row:first-child{background:var(--alexbg)}.rose .row:first-child{background:var(--rosebg)}
+.num{font-size:28px;font-weight:800;line-height:1;text-align:center}
+.alex .num{color:var(--alex)}.rose .num{color:var(--rose)}
+.nm{font-weight:700;line-height:1.2}
+.meta{font-size:13px;color:var(--mute);display:flex;gap:8px;flex-wrap:wrap}
+.up{color:#1f8a55;font-weight:700}.dn{color:#c2334a;font-weight:700}
+.split .nm{text-decoration:line-through;opacity:.6}
+.mv{display:flex;gap:4px}
+.mv button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-size:18px;line-height:1}
+.mv button:disabled{opacity:.25;cursor:default}
+.mine{outline:2px dashed transparent}
+.ro .mv{display:none}
+.hint{font-size:13px;color:var(--mute);margin:10px 2px 0}
+h2.sec{font-size:clamp(26px,3.5vw,34px);line-height:1.1;margin:0 0 4px}
+.lede{color:var(--mute);margin:0 0 18px;max-width:62ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.ch{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.ch h3{margin:0;font-size:20px;line-height:1.2}
+.full{font-size:13px;color:var(--mute)}
+.pos{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.chip{font-size:13px;font-weight:700;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.ca{background:var(--alexbg);color:var(--alex)}.cr{background:var(--rosebg);color:var(--rose)}
+.gap{font-size:13px;color:var(--mute);white-space:nowrap}
+.note{border-radius:14px;padding:10px 12px;font-size:15px}
+.note.a{background:var(--alexbg)}.note.r{background:var(--rosebg)}
+.note b{display:block;font-size:13px}
+.note.a b{color:var(--alex)}.note.r b{color:var(--rose)}
+.note .empty{color:var(--mute);font-style:italic}
+.note p{margin:2px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+textarea{width:100%;min-height:70px;font-size:16px;border-radius:12px;border:1px solid var(--line);background:var(--bg);padding:10px;resize:vertical}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg);padding:0 14px}
+.btn.pri{background:var(--wine);color:#fbe9ee;border-color:var(--wine);font-weight:700}
+.st{margin-left:auto;display:flex;gap:4px}
+.st button{min-height:36px;font-size:13px;border-radius:999px;border:1px solid var(--line);background:transparent;padding:0 10px}
+.st button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+details.more{margin-top:22px}
+details.more summary{cursor:pointer;color:var(--mute);min-height:44px;display:flex;align-items:center}
+.add{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.add input{min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);padding:0 12px;font-size:16px;flex:1 1 150px}
+.pick{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;text-align:center;margin-bottom:22px}
+.pick h2{margin:0 0 6px}
+.pick .acts{justify-content:center;margin-top:12px}
+.pick .btn{min-width:130px;font-weight:700}
+.sm{font-size:13px;color:var(--mute)}
+@media(max-width:680px){.boards{grid-template-columns:1fr}.status{margin-left:0;width:100%}}
+@media(prefers-reduced-motion:reduce){.row{transition:none}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="application/json" id="state">{"ep":4,"couples":[{"id":"sj","a":"Sarah","b":"John","full":"Sarah Williams & John Shannon","status":"on"},{"id":"eb","a":"Erika","b":"Blake","full":"Erika Ellis & Blake Carver","status":"on"},{"id":"ac","a":"Aneha","b":"Cam","full":"Aneha Singh & Cam Halloran","status":"on"},{"id":"ww","a":"Wilnie","b":"Wilson","full":"Wilnie Louis & Wilson","status":"on"},{"id":"mr","a":"Michaella","b":"Rob","full":"Michaella & Rob Feeley","status":"on"},{"id":"js","a":"Jax","b":"Stew","full":"Jax & Scott “Stew” Stewart","status":"on"}],"ranks":{"alex":["sj","eb","ac","ww","mr","js"],"rose":["sj","eb","ac","ww","mr","js"]},"notes":{"alex":{},"rose":{}},"hist":{"alex":{},"rose":{}},"updated":null}</script>
+<script id="app">
+{
+const PEOPLE={alex:'Alex',rose:'Rose'};
+const EMO={
+rose:`<svg class="av big" viewBox="0 0 120 120" role="img" aria-label="Rose"><clipPath id="clr"><circle cx="60" cy="60" r="60"/></clipPath><g clip-path="url(#clr)"><circle cx="60" cy="60" r="60" fill="#ffd9e4"/><circle cx="60" cy="60" r="44" fill="#ffe8ef"/><path d="M30 58c0-24 13-38 30-38s30 14 30 38c0 18 6 30 10 40-10 6-25 8-40 8s-30-2-40-8c4-10 10-22 10-40z" fill="#f2c14e"/><path d="M36 64c0 16-4 28-8 36l10 3c2-12 4-26 3-39zM84 64c0 16 4 28 8 36l-10 3c-2-12-4-26-3-39z" fill="#e0a92f"/><path d="M52 76h16v16H52z" fill="#efc2a6"/><path d="M20 122c2-18 14-30 32-32h16c18 2 30 14 32 32z" fill="#ec6f9b"/><circle cx="30" cy="102" r="13" fill="#f48fb1"/><circle cx="90" cy="102" r="13" fill="#f48fb1"/><path d="M26 98q4-5 9-4M85 94q5-1 9 4" stroke="#fbc3d5" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M47 89c4 10 22 10 26 0z" fill="#f8d5bd"/><path d="M50 91q10 8 20 0" stroke="#fff" stroke-width="1.6" fill="none"/><circle cx="60" cy="95.5" r="2" fill="#e0115f"/><ellipse cx="60" cy="58" rx="21" ry="23" fill="#f8d5bd"/><path d="M38 54c2-18 12-28 22-28s20 10 22 28c-6-8-12-12-18-13-2 5-8 9-16 10-4 0-7 1-10 3z" fill="#f2c14e"/><path d="M38 52c-4 10-3 22 0 30 2-8 3-18 4-26zM82 52c4 10 3 22 0 30-2-8-3-18-4-26z" fill="#f7d36b"/><path d="M47 35q8-6 17-3" stroke="#fbe39a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M44 32l4-12 6 7 6-11 6 11 6-7 4 12q-16-5-32 0z" fill="#ffd54a" stroke="#c48a12" stroke-width="1.2" stroke-linejoin="round"/><circle cx="60" cy="23" r="2.4" fill="#e0115f"/><circle cx="49" cy="26" r="1.5" fill="#4fc3f7"/><circle cx="71" cy="26" r="1.5" fill="#4fc3f7"/><path d="M46 50q5-3 10-1M64 49q5-2 10 1" stroke="#c9962c" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse cx="51" cy="60" rx="3.6" ry="4.6" fill="#2a0c17"/><ellipse cx="69" cy="60" rx="3.6" ry="4.6" fill="#2a0c17"/><circle cx="52.3" cy="58.2" r="1.3" fill="#fff"/><circle cx="70.3" cy="58.2" r="1.3" fill="#fff"/><path d="M47.6 56.4l-2.6-2M49 55.2l-1.4-2.8M72.4 56.4l2.6-2M71 55.2l1.4-2.8" stroke="#2a0c17" stroke-width="1.4" stroke-linecap="round"/><ellipse cx="45" cy="68" rx="4.5" ry="3" fill="#f29bb0" opacity=".85"/><ellipse cx="75" cy="68" rx="4.5" ry="3" fill="#f29bb0" opacity=".85"/><path d="M60 63q-1.6 4 1 4.6" stroke="#dba487" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M53 72q7 6 14 0q-7 2.5-14 0z" fill="#c2335d"/></g></svg>`,
+alex:`<svg class="av big" viewBox="0 0 120 120" role="img" aria-label="Alex"><clipPath id="cla"><circle cx="60" cy="60" r="60"/></clipPath><g clip-path="url(#cla)"><circle cx="60" cy="60" r="60" fill="#fbe2b4"/><circle cx="60" cy="60" r="44" fill="#fdeccb"/><path d="M51 72h18v18H51z" fill="#e3b08a"/><path d="M16 122c2-20 16-32 36-34h16c20 2 34 14 36 34z" fill="#2f5d73"/><path d="M50 88l10 18 10-18z" fill="#fff"/><path d="M48 89l12 33H44l-6-25zM72 89l-12 33h16l6-25z" fill="#24485a"/><path d="M50 87l-4 8 8 5 6-6zM70 87l4 8-8 5-6-6z" fill="#f4f4f4" stroke="#cfcfcf" stroke-width=".8" stroke-linejoin="round"/><ellipse cx="38" cy="58" rx="5" ry="7" fill="#e8b991"/><ellipse cx="82" cy="58" rx="5" ry="7" fill="#e8b991"/><path d="M39 52c0-15 9-24 21-24s21 9 21 24v8c0 15-9 24-21 24s-21-9-21-24z" fill="#f1c9a5"/><path d="M38 53c-2-18 8-31 24-31 12 0 22 6 21 18 0 6-1 10-2 14-2-8-6-12-12-13-8-1-14 2-22 0-4 3-6 7-9 12z" fill="#5a3a22"/><path d="M51 29q10-5 21 0" stroke="#7a5236" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M39 52v11l3-2v-9zM81 52v11l-3-2v-9z" fill="#5a3a22"/><path d="M45 48q6-4 12-1M63 47q6-3 12 1" stroke="#4a2e1a" stroke-width="3.2" fill="none" stroke-linecap="round"/><ellipse cx="51" cy="56" rx="3.2" ry="4" fill="#2a0c17"/><ellipse cx="69" cy="56" rx="3.2" ry="4" fill="#2a0c17"/><circle cx="52.2" cy="54.6" r="1.1" fill="#fff"/><circle cx="70.2" cy="54.6" r="1.1" fill="#fff"/><ellipse cx="46" cy="66" rx="4" ry="2.6" fill="#eaa985" opacity=".55"/><ellipse cx="74" cy="66" rx="4" ry="2.6" fill="#eaa985" opacity=".55"/><ellipse cx="60" cy="64" rx="4.6" ry="3.8" fill="#e3ad85"/><path d="M53 76q7 5 14 0" stroke="#8a3b2a" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M60 69c-4-3-10-3-14 1-4 3-8 3-10 0 0 5 5 8 10 7 5-1 9-3 14-5 5 2 9 4 14 5 5 1 10-2 10-7-2 3-6 3-10 0-4-4-10-4-14-1z" fill="#4a2e1a"/><path d="M49 71q4-2 8 0" stroke="#6b4429" stroke-width="1.4" fill="none" stroke-linecap="round"/></g></svg>`};
+const S=JSON.parse(document.getElementById('state').textContent);
+const root=document.getElementById('root');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}};
+let who=ls.get('lib11-who');if(!PEOPLE[who])who=null;
+let art=null,saveState='connecting',timer=null;
+const byId=id=>S.couples.find(c=>c.id===id);
+const visible=p=>S.ranks[p].filter(id=>{const c=byId(id);return c&&c.status!=='hidden'});
+for(const p in PEOPLE){for(const c of S.couples)if(!S.ranks[p].includes(c.id))S.ranks[p].push(c.id)}
+
+function movement(p,id){
+  const prev=S.hist[p][S.ep-1];if(!prev)return '';
+  const vis=visible(p);const pv=prev.filter(x=>vis.includes(x));
+  if(!pv.includes(id))return '<span>new</span>';
+  const d=pv.indexOf(id)-vis.indexOf(id);
+  return d>0?`<span class="up">↑${d}</span>`:d<0?`<span class="dn">↓${-d}</span>`:'<span>no change</span>';
+}
+function board(p){
+  const vis=visible(p),mine=who===p;
+  return `<section class="board ${p} ${mine?'':'ro'}">
+  <h2>${EMO[p]}<span>${PEOPLE[p]}'s ranking</span></h2>
+  <p class="sub">${mine?'Your list — move couples up and down':who?`${PEOPLE[p]}'s picks (view only)`:'Pick who you are above to edit'}</p>
+  <ol>${vis.map((id,i)=>{const c=byId(id);const n=S.notes[p][id];return `<li class="row ${c.status==='split'?'split':''}">
+    <span class="num">${i+1}</span>
+    <div><div class="nm">${esc(c.a)} &amp; ${esc(c.b)}</div><div class="meta">${movement(p,id)}${c.status==='split'?'<span>split</span>':''}${n?'<span>has a note</span>':''}</div></div>
+    <div class="mv"><button data-act="mv" data-p="${p}" data-id="${esc(id)}" data-d="-1" aria-label="Move ${esc(c.a)} and ${esc(c.b)} up" ${i===0?'disabled':''}>↑</button><button data-act="mv" data-p="${p}" data-id="${esc(id)}" data-d="1" aria-label="Move ${esc(c.a)} and ${esc(c.b)} down" ${i===vis.length-1?'disabled':''}>↓</button></div>
+  </li>`}).join('')}</ol>
+  ${S.hist[p][S.ep-1]?`<p class="hint">Arrows show movement since episode ${S.ep-1}.</p>`:''}
+  </section>`;
+}
+function card(c){
+  const va=visible('alex'),vr=visible('rose');
+  const ra=va.indexOf(c.id)+1,rr=vr.indexOf(c.id)+1;
+  const g=Math.abs(ra-rr);
+  const gt=c.status==='hidden'?'':g===0?'Same spot — agreed':g===1?'1 place apart':g>=3?`${g} places apart — debate!`:`${g} places apart`;
+  const draftKey=`lib11-draft-${who}-${c.id}`;
+  const saved=who?(S.notes[who][c.id]||''):'';
+  const draft=who?ls.get(draftKey):null;
+  const noteBlock=p=>{const t=S.notes[p][c.id];return `<div class="note ${p==='alex'?'a':'r'}"><b>${PEOPLE[p]}</b>${t?`<p>${esc(t)}</p>`:'<p class="empty">No note yet</p>'}</div>`};
+  return `<article class="card" id="c-${esc(c.id)}">
+   <div class="ch"><div><h3>${esc(c.a)} &amp; ${esc(c.b)}</h3><div class="full">${esc(c.full||'')}</div></div>
+   <div class="st" role="group" aria-label="Status">${[['on','Together'],['split','Split'],['hidden','Hide']].map(([k,l])=>`<button data-act="st" data-id="${esc(c.id)}" data-s="${k}" aria-pressed="${c.status===k}">${l}</button>`).join('')}</div></div>
+   ${c.status==='hidden'?'<p class="sm">Hidden from both rankings.</p>':`<div class="pos"><span class="chip ca">Alex #${ra}</span><span class="chip cr">Rose #${rr}</span><span class="gap">${gt}</span></div>`}
+   ${noteBlock('alex')}${noteBlock('rose')}
+   ${who?`<textarea data-note="${esc(c.id)}" aria-label="Your note on ${esc(c.a)} and ${esc(c.b)}" placeholder="${PEOPLE[who]}, what do you reckon?">${esc(draft??saved)}</textarea>
+   <div class="acts"><button class="btn pri" data-act="note" data-id="${esc(c.id)}">Save my note</button>${draft!=null&&draft!==saved?'<span class="sm">Unsaved draft</span>':''}</div>`:''}
+  </article>`;
+}
+function render(){
+  const order=[...S.couples].sort((x,y)=>{
+    const h=(x.status==='hidden')-(y.status==='hidden');if(h)return h;
+    const avg=c=>(visible('alex').indexOf(c.id)+visible('rose').indexOf(c.id));return avg(x)-avg(y)});
+  const msg={connecting:'Connecting…',saved:S.updated?`Last saved by ${esc(PEOPLE[S.updated.by]||'someone')} · ${esc(new Date(S.updated.at).toLocaleString([], {weekday:'short',hour:'2-digit',minute:'2-digit'}))}`:'All saved',saving:'Saving…',pending:'Saving…',local:'Preview — changes won’t be kept here',readonly:'View only — ask for edit access to save',error:'Couldn’t save — try again'}[saveState];
+  root.innerHTML=`<header class="top"><div class="wrap">
+   <div class="hero"><div><p class="kick">Love Is Blind · Season 11 · Boston</p>
+   <h1>Who's going to make it to the altar?</h1></div><div class="duo">${EMO.rose}${EMO.alex}</div></div>
+   <div class="bar">
+    <div class="ep" role="group" aria-label="Episode"><button data-act="ep" data-d="-1" aria-label="Previous episode" ${S.ep<=1?'disabled':''}>←</button><b>Up to episode ${S.ep}</b><button class="nx" data-act="ep" data-d="1">Watched ep ${S.ep+1}</button></div>
+    <div class="who" role="group" aria-label="Who's ranking"><span>I'm</span>${Object.keys(PEOPLE).map(p=>`<button data-act="who" data-p="${p}" aria-pressed="${who===p}">${EMO[p]} ${PEOPLE[p]}</button>`).join('')}</div>
+    <span class="status" aria-live="polite">${msg}</span>
+   </div></div></header>
+  <main class="band"><div class="wrap">
+   ${who?'':`<div class="pick"><h2>Who's on the sofa?</h2><p class="sm">Pick your name so you can move your couples and write notes. This device will remember.</p><div class="acts">${Object.keys(PEOPLE).map(p=>`<button class="btn pri" data-act="who" data-p="${p}">${EMO[p]} I'm ${PEOPLE[p]}</button>`).join('')}</div></div>`}
+   <div class="boards">${board(who==='rose'?'rose':'alex')}${board(who==='rose'?'alex':'rose')}</div>
+  </div></main>
+  <section class="band" style="padding-top:0"><div class="wrap">
+   <h2 class="sec">The couples, side by side</h2>
+   <p class="lede">Ordered by your combined ranking. Leave notes on anyone — red flags, green flags, predictions — and see what the other one thinks.</p>
+   <div class="cards">${order.map(card).join('')}</div>
+   <details class="more"><summary>Add a couple</summary>
+    <form class="add" id="addf"><input name="a" placeholder="First name" required aria-label="First person"><input name="b" placeholder="Second name" required aria-label="Second person"><button class="btn pri">Add</button></form>
+   </details>
+  </div></section>`;
+}
+function stamp(){S.updated={by:who,at:Date.now()}}
+function queue(){stamp();if(saveState==='local'||saveState==='readonly'){render();return}saveState='pending';render();clearTimeout(timer);timer=setTimeout(save,900)}
+function buildDoc(){
+  const css=document.getElementById('css').textContent,js=document.getElementById('app').textContent;
+  const head=`<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<title>Pod Rankings S11</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">`;
+  const json=JSON.stringify(S).replace(/</g,'\\u003c');
+  return `<!DOCTYPE html>\n<html lang="en">\n<head>\n${head}\n<style id="css">${css}</style>\n</head>\n<body>\n<div id="root"></div>\n<script type="application/json" id="state">${json}<\/script>\n<script id="app">${js}<\/script>\n</body>\n</html>\n`;
+}
+async function save(){
+  if(!art)return;
+  saveState='saving';render();
+  try{await art.publish(buildDoc());saveState='saved'}
+  catch(e){const m=String(e&&(e.code||e.message||e));saveState=/not_granted|not_writer/.test(m)?'readonly':/conflict/.test(m)?'saved':'error'}
+  render();
+}
+root.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
+  const act=b.dataset.act;
+  if(act==='who'){who=b.dataset.p;ls.set('lib11-who',who);render();return}
+  if(!who){root.querySelector('.pick')?.scrollIntoView({behavior:'smooth'});return}
+  if(act==='mv'){const p=b.dataset.p;if(p!==who)return;const vis=visible(p),id=b.dataset.id,i=vis.indexOf(id),j=i+ +b.dataset.d;if(j<0||j>=vis.length)return;
+    const other=vis[j],arr=S.ranks[p],ai=arr.indexOf(id),bi=arr.indexOf(other);arr[ai]=other;arr[bi]=id;queue()}
+  if(act==='ep'){const d=+b.dataset.d;if(d>0){for(const p in PEOPLE)S.hist[p][S.ep]=[...S.ranks[p]];S.ep++}else if(S.ep>1)S.ep--;queue()}
+  if(act==='st'){const c=byId(b.dataset.id);c.status=b.dataset.s;queue()}
+  if(act==='note'){const id=b.dataset.id,t=root.querySelector(`textarea[data-note="${CSS.escape(id)}"]`);const v=t.value.trim();if(v)S.notes[who][id]=v;else delete S.notes[who][id];ls.set(`lib11-draft-${who}-${id}`,null);queue()}
+});
+root.addEventListener('input',e=>{const t=e.target.closest('textarea[data-note]');if(t&&who)ls.set(`lib11-draft-${who}-${t.dataset.note}`,t.value)});
+root.addEventListener('submit',e=>{if(e.target.id!=='addf')return;e.preventDefault();const f=new FormData(e.target);const a=String(f.get('a')).trim(),bb=String(f.get('b')).trim();if(!a||!bb)return;
+  const id='c'+Date.now().toString(36);S.couples.push({id,a,b:bb,full:'',status:'on'});for(const p in PEOPLE)S.ranks[p].push(id);queue()});
+render();
+(async()=>{try{art=await claude.use('artifact')}catch(e){art=null}saveState=art?'saved':'local';render()})();
+}
+</script>
+</body>
+</html>
